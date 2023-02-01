@@ -1,0 +1,61 @@
+    {% extends 'base.html' %}
+    {% block content %}
+    <!-- container start -->
+    <div class="container">
+
+        <!-- 질문 py:상하패딩! start -->
+        <h2 class="border-bottom py-2">{{question.subject}}</h2>
+        <div class="card my-3">
+            <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
+            <div class="d-flex justify-content-end">
+                <div class="badge bg-success text-light p-2">
+                    {{question.create_date}}
+                </div>
+            </div>
+        </div>
+        <!-- 질문 end -->
+
+        <!-- 답변 start -->
+        <h5 class="border-bottom py-2 my-3">{{question.answer_set.count}} 개의 답변이 있습니다.</h5>
+            {% for i in question.answer_set.all%}
+                <div class="card my-3">
+                    <div class="card-text" style="white-space: pre-line;">{{i.content}}</div>
+                        <div class="d-flex justify-content-end">
+                            <div class="badge bg-warning text-dark p-2">
+                                {{i.create_date}}
+                            </div>
+                        </div>
+                </div>
+            {% endfor %}
+        <!-- 답변 end -->
+
+        <!-- 답변 등록 start -->
+        <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3" name="answer_frm">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="content" class="col-form-label">내용</label>
+                <textarea rows="10" class="form-control" name="content" id="content"></textarea>
+            </div>
+            <input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave();">
+        </form>
+        <!-- 답변 등록 end -->
+
+        <script>
+            function doSave(){
+                <!--console.log("doSave");-->
+                const frm = document.answer_frm;
+                const ctent = frm.content.value;
+                console.log("content내용"+ctent)
+                if(empty(ctent) == true){
+                    alert("내용을 입력 하세요");
+                    frm.content.focus();
+                    return;
+                }
+                frm.submit();
+            }
+        </script>
+
+    </div>
+    <!-- container end -->
+
+    {% endblock %}

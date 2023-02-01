@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- 부트스트랩   -->
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css'%}">
+    <title>Title</title>
+</head>
+<body>
+    <!-- container start -->
+    <div class="container">
+
+        <!-- 제목 start -->
+        <div class="text-start mb-5">
+            <h2>임시메뉴</h2>
+        </div>
+        <!-- 제목 end -->
+
+        <!-- table start -->
+        <div class="container">
+            <table class="table table-striped table-hover table-bordered table-sm">
+                <thead class="table-warning">
+                    <th scope="col" class="text-center">NO.</th>
+                    <th scope="col" class="text-center">메뉴</th>
+                    <th scope="col" class="text-center">설명</th>
+                    <th scope="col" class="text-center">작성일</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center">1</td> <!--가운데 정렬-->
+                        <td class="text-start"><a href="{% url 'pybo:index' %}"> 질문 목록 </a></td> <!--왼쪽 정렬-->
+                        <td class="text-center">질문목록데이터베이스 끌어온것</td>
+                        <td class="text-center">2023-01-31</td>
+                    </tr>
+                     <tr>
+                        <td class="text-center">2</td> <!--가운데 정렬-->
+                        <td class="text-start"><a href="{% url 'pybo:boot_list' %}"> 부트_리스트 </a></td> <!--왼쪽 정렬-->
+                        <td class="text-center">부트스트랩의 목록 템플릿</td>
+                        <td class="text-center">2023-01-31</td>
+                    </tr>
+                    <tr>
+                        <td class="text-center">3</td> <!--가운데 정렬-->
+                        <td class="text-start"><a href="{% url 'pybo:boot_reg' %}"> 부트_알이지 </a></td> <!--왼쪽 정렬-->
+                        <td class="text-center">부트스트랩의 등록 템플릿</td>
+                        <td class="text-center">2023-01-31</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- table end -->
+
+    </div>
+    <!-- container end -->
+</body>
+</html>
