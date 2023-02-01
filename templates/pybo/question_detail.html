@@ -32,11 +32,26 @@
         <!-- 답변 등록 start -->
         <form action="{% url 'pybo:answer_create' question.id %}" method="post" class="my-3" name="answer_frm">
             {% csrf_token %}
+
+        <!-- form validation start -->
+            {% if form.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {% for i in form %}
+                        {% if i.errors %}
+                            <div><strong>{{ i.label }}</strong></div>
+                            {{ i.errors }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        <!-- form validation end -->
+
             <div class="mb-3">
                 <label for="content" class="col-form-label">내용</label>
                 <textarea rows="10" class="form-control" name="content" id="content"></textarea>
             </div>
-            <input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave();">
+            <!-- <input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave();"> -->
+            <input type="submit" value="답변등록합시다" class="btn btn-primary btn-sm">
         </form>
         <!-- 답변 등록 end -->
 
