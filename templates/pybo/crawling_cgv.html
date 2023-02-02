@@ -5,10 +5,12 @@
 
         <!-- 제목 start -->
         <div class="text-start mb-5">
-            <h2 class="border-bottom py-2">질문 목록</h2>
+            <h2 class="border-bottom py-2">영화cgv무비차트</h2>
         </div>
         <!-- 제목 end -->
-
+        {{ title }} </br>
+        {{ reserve }} </br>
+        {{ poster }}
         <!-- 검색, 버튼 start -->
         <div class="d-grid gap-2 d-md-flex justify-content-end">
             <!-- 검색 영역 start -->
@@ -49,41 +51,21 @@
                     <th scope="col" class="text-center">조회수</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="text-center">1</td> <!--가운데 정렬-->
-                        <td class="text-start">돈마니벌고싶다</td> <!--왼쪽 정렬-->
-                        <td class="text-center">김유석</td>
-                        <td class="text-center">2023-01-30</td>
-                        <td class="text-end">1</td> <!--오른쪽 정렬-->
-                    </tr>
-                     <tr>
-                        <td class="text-center">2</td> <!--가운데 정렬-->
-                        <td class="text-start">돈마니벌고싶다</td> <!--왼쪽 정렬-->
-                        <td class="text-center">김유석</td>
-                        <td class="text-center">2023-01-30</td>
-                        <td class="text-end">1</td> <!--오른쪽 정렬-->
-                    </tr>
-                    <tr>
-                        <td class="text-center">3</td> <!--가운데 정렬-->
-                        <td class="text-start">돈마니벌고싶다</td> <!--왼쪽 정렬-->
-                        <td class="text-center">김유석</td>
-                        <td class="text-center">2023-01-30</td>
-                        <td class="text-end">1</td> <!--오른쪽 정렬-->
-                    </tr>
-                    <tr>
-                        <td class="text-center">4</td> <!--가운데 정렬-->
-                        <td class="text-start">돈마니벌고싶다</td> <!--왼쪽 정렬-->
-                        <td class="text-center">김유석</td>
-                        <td class="text-center">2023-01-30</td>
-                        <td class="text-end">1</td> <!--오른쪽 정렬-->
-                    </tr>
-                    <tr>
-                        <td class="text-center">5</td> <!--가운데 정렬-->
-                        <td class="text-start">돈마니벌고싶다</td> <!--왼쪽 정렬-->
-                        <td class="text-center">김유석</td>
-                        <td class="text-center">2023-01-30</td>
-                        <td class="text-end">1</td> <!--오른쪽 정렬-->
-                    </tr>
+                    {% if title %}
+                        {% for i in title %}
+                            <tr>
+                                <td class="text-center">1</td> <!--가운데 정렬-->
+                                <td class="text-start">{{i}}</td> <!--왼쪽 정렬-->
+                                <td class="text-center">김유석</td>
+                                <td class="text-center">2023-01-30</td>
+                                <td class="text-end">1</td> <!--오른쪽 정렬-->
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="99">no data found</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>

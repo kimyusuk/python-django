@@ -8,14 +8,18 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css'%}">
     <script src="{% static 'common.js' %}"></script>
+
     <title>Pybo</title>
 </head>
 <body>
+    <!-- 네비게이션바 start-->
+    {% include 'navbar.html' %}
+    <!-- 네비게이션바 end -->
 
-  <!-- 기본 템플릿 안에 삽입될 내용 start-->
-  {% block content %}
-  {% endblock %}
-  <!-- 기본 템플릿 안에 삽입될 내용 end-->
-
+    <!-- 기본 템플릿 안에 삽입될 내용 start-->
+    {% block content %}
+    {% endblock %}
+    <!-- 기본 템플릿 안에 삽입될 내용 end-->
+    <script src="{% static 'bootstrap.min.js' %}"></script>
 </body>
 </html>

@@ -1,21 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <!-- 부트스트랩   -->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css'%}">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
     <!-- container start -->
     <div class="container">
 
         <!-- 제목 start -->
         <div class="text-start mb-5">
-            <h2>질문 등록</h2>
+            <h2 class="border-bottom py-2">질문 등록</h2>
         </div>
         <!-- 제목 end -->
 
@@ -51,5 +41,4 @@
 
     </div>
     <!-- container end -->
-</body>
-</html>
+{% endblock %}
