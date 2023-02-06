@@ -13,8 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 # from pybo.models import Question,Answer
 # from django.utils import timezone
 # q=Question(subject="파이썬 게시판은 무엇인가요?",content="알고 싶어요!",create_date=timezone.now())
@@ -33,8 +31,11 @@ from django.urls import path, include
 # a = Answer.objects.get(id=1)
 # a.question
 # q.answer_set.all()
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('pybo/',include('pybo.urls'))
+    path('pybo/',include('pybo.urls')),
+    path('common/',include('common.urls')),
 ]

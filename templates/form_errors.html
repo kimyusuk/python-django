@@ -1,0 +1,12 @@
+<!-- form validation start -->
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">
+        {% for i in form %}
+            {% if i.errors %}
+                <div><strong>{{ i.label }}</strong></div>
+                {{ i.errors }}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endif %}
+<!-- form validation end -->

@@ -6,6 +6,7 @@ from .forms import QuestionForm, AnswerForm
 import logging
 from bs4 import BeautifulSoup
 import requests
+from django.core.paginator import Paginator
 
 
 def boot_menu(request):
@@ -16,10 +17,24 @@ def index(request):
     # order_by('-필드') = desc,order_by('필드') = asc
     logging.info("index 레벨로 출력")
     # print("index 레벨로 출력")
+    page = request.GET.get('page','1')
+    logging.info("page:{}".format(page))
     question_list = Question.objects.order_by("-create_date")
+    paginator = Paginator(question_list,10)
+    pageObj = paginator.get_page(page)
+    # paginator.count: 전체 게시물 갯수
+    # paginator.per_page: 페이지당 보여줄 게시물 갯수
+    # paginator.page_range: 페이지범위
+    # number: 현재페이지 번호
+    # previous_page_number: 이전 페이지 번호
+    # next_page_number: 다음 페이지 번호
+    # has_previous: 이전 페이지 유무
+    # has_next: 다음 페이지 유무
+    # start_index: 현재 페이지 시작 인덱스(1부터 시작)
+    # end_index: 현재 페이지 끝 인덱스
     # question_list = Question.objects.filter(id=1)
-    context = {"question_list":question_list} # list order creat_date desc
-    # print("question_list:{}".format(question_list))
+    context = {"question_list" : pageObj} # list order creat_date desc
+    logging.info("pageObjValue:{}".format(pageObj))
     return render (request,'pybo/question_list.html',context)
 
 def question_create(request):
@@ -95,7 +110,7 @@ def crawling_cgv(request):
             reserve_list.append(reserve[i].getText()) #예매율
             poster_list.append(imgUrlPath) #포스터 소스
             print("영화:{}, {}, {}".format(title[i].getText(),reserve[i].getText(),imgUrlPath))
-        context = {"title": title_list, 'reserve': reserve_list, 'poster' : poster_list}
+        context = {"context": zip(title_list, reserve_list, poster_list)}
     else:
         print("접속오류 response.status_code:{}".format(response.status_code))
 

@@ -8,13 +8,16 @@
                 <ul class="navbar-nav">
                     <!-- 로그인 -->
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"> 로그인 </a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'common:login' %}"> 로그인 </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'pybo:boot_list' %}"> 부트_리스트 </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'pybo:boot_reg' %}"> 부트_알이지 </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'pybo:crawling_cgv' %}"> cgv무비차트 </a>
                     </li>
                 </ul>
             </div>

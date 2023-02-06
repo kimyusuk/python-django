@@ -5,9 +5,80 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from selenium import webdriver
+import time
+from selenium.webdriver.common.by import By
+import pyperclip
+from selenium.webdriver.common.keys import Keys
+
+
+
+
 class Crawling(unittest.TestCase):
-    def setup(self):
-        print("setUp")
+    def setUp(self):
+        self.browser = webdriver.Firefox(executable_path='C:\BIG_AI0102\PYTHON_01_BASIC\app\geckodriver.exe')
+        logging.info("setUp")
+
+    def tearDown(self):
+        logging.info("teardown")
+        #self.browser.quit()
+
+    @unittest.skip("테스트 연습")
+    def test_clipboard_naver(self): #ctrl c,v 우회
+        self.browser.get('https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com')
+        user_id = "airheart0422"
+        user_pw = "qkqh0718@"
+
+        #id
+        id_textinput = self.browser.find_element(By.ID,'id')
+        id_textinput.click()
+        #클립보드로 copy
+        pyperclip.copy(user_id)
+        id_textinput.send_keys(Keys.CONTROL,'v')
+        time.sleep(1)
+
+        #password
+        pw_textinput = self.browser.find_element(By.ID,'pw')
+        pw_textinput.click()
+        pyperclip.copy(user_pw)
+        pw_textinput.send_keys(Keys.CONTROL,'v')
+        time.sleep(1)
+
+        btn_login = self.browser.find_element(By.ID,'log.login')
+        btn_login.click()
+    @unittest.skip("테스트 연습")
+    def test_naver(self):
+        self.browser.get('https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com')
+        print("browser:{}".format(self.browser))
+        id_textarea = self.browser.find_element(By.ID, 'id')
+        id_textarea.send_keys('airheart0422')
+        pw_textarea2 = self.browser.find_element(By.ID, 'pw')
+        pw_textarea2.send_keys('qkqh0718@')
+        btn = self.browser.find_element(By.ID, 'log.login')
+        btn.click()
+    @unittest.skip("테스트 연습")
+    def test_selenium(self):
+        #firefox로 웹 드라이버 객체에게 get을 통하여 네이버의 http요청을 하게 함.
+        self.browser.get('http://192.168.219.103:8000/pybo/503/')
+        print("self.browser:{}".format(self.browser.title))
+        self.assertIn('Pybo',self.browser.title)
+        content_textarea = self.browser.find_element(By.ID,'content')
+        content_textarea.send_keys('나는 귀염둥이다!')
+        btn = self.browser.find_element(By.ID,'submit_btn')
+        btn.click()
+    @unittest.skip("테스트 연습")
+    def test_zip(self):
+        integer = [1,2,3]
+        letters = ['a','b','c']
+        floats = [4.0, 8.0, 10.0]
+        zipped = zip(integer,letters,floats)
+        list_data = list(zipped)
+        # for i in zipped:
+        #     print(i)#(1, 'a', 4.0) (2, 'b', 8.0) (3, 'c', 10.0)
+        # for i in list_data:
+        #     print(i)#(1, 'a', 4.0) (2, 'b', 8.0) (3, 'c', 10.0)
+        print("list_data:{}".format(list_data))
+    @unittest.skip("테스트 연습")
     def test_naver_stock(self):
         codes = {"삼성전자":"005930","현대차":"005380"}
         for i in codes.keys():
@@ -21,11 +92,6 @@ class Crawling(unittest.TestCase):
                 print("종목명: {},코드: {},주가: {}".format(i,codes[i],price[0].getText()))
             else:
                 print("접속 오류")
-
-
-    @unittest.skip("테스트 연습")
-    def tearDown(self):
-        print("tearDown")
     @unittest.skip("테스트 연습")
     def call_slemdunk(self,url):
         # url = "https://movie.naver.com/movie/point/af/list.naver?st=mcode&sword=223800&target=after&page=1"

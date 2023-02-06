@@ -30,11 +30,11 @@ ALLOWED_HOSTS = ["*"]
 # ALLOWED_HOSTS = ['127.0.01','192.168.219.103']
 
 # Application definition
-
 INSTALLED_APPS = [
+	'common.apps.CommonConfig',
     'pybo.apps.PyboConfig',
     'django.contrib.admin',
-    'django.contrib.auth',
+    'django.contrib.auth', #로그인 로그아웃 앱
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',

@@ -9,19 +9,19 @@
 
     <form method="post" action="{% url 'pybo:question_create' %}" class="post-form my-3">
       {% csrf_token %}
-
-      <!-- form validation start -->
-      {% if form.errors %}
-        <div class="alert alert-danger" role="alert">
-          {% for i in form %}
-            {% if i.errors %}
-              <div><strong>{{ i.label }}</strong></div>
-              {{ i.errors }}
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-      <!-- form validation end -->
+      {% include "form_errors.html" %}
+<!--      &lt;!&ndash; form validation start &ndash;&gt;-->
+<!--      {% if form.errors %}-->
+<!--        <div class="alert alert-danger" role="alert">-->
+<!--          {% for i in form %}-->
+<!--            {% if i.errors %}-->
+<!--              <div><strong>{{ i.label }}</strong></div>-->
+<!--              {{ i.errors }}-->
+<!--            {% endif %}-->
+<!--          {% endfor %}-->
+<!--        </div>-->
+<!--      {% endif %}-->
+<!--      &lt;!&ndash; form validation end &ndash;&gt;-->
 
       <div class="mb-3">
         <label for="subject" class="col-form-label">제목</label>
