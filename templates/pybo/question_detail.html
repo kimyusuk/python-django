@@ -4,27 +4,73 @@
     <div class="container">
 
         <!-- 질문 py:상하패딩! start -->
-        <h2 class="border-bottom py-2">{{question.subject}}</h2>
+        <h2 class="border-bottom py-2">{{ question.subject }}</h2>
         <div class="card my-3">
-            <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-success text-light p-2">
-                    {{question.create_date}}
-                </div>
+
+            <!-- message 표시 start -->
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                {% for i in messages %}
+                    <strong>{{ i.tags }}</strong>
+                    <ul>
+                        <li>{{ i.message }}</li>
+                    </ul>
+                {% endfor %}
             </div>
+            {% endif %}
+            <!-- message 표시 end -->
+
+            <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
+            <div class="d-flex justify-content-end">
+                <!-- 수정일 start -->
+                {% if question.modify_date %}
+                    <div class="badge bg-success text-light p-2 text-start mx-3">
+                        <div class="mb-2">수정일</div>
+                        <div>{{ question.modify_date }}</div>
+                    </div>
+                {% endif %}
+                <!-- 수정일 end -->
+                <!--등록자, 등록일 start -->
+                <div class="badge bg-success text-light p-2 text-start">
+                    <div class="mb-2">{{ question.author.username }}</div>
+                    <div>{{ question.create_date }}</div>
+                </div>
+                <!--등록자, 등록일 end -->
+            </div>
+            <!-- 질문 수정 start -->
+            <div class="my-3">
+                {% if question.author == request.user %} <!-- 글쓴이와 로그인한 사용자가 동일하다면 if문 실행해라. -->
+                    <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-dark">수정</a> <!-- if문 -->
+                    <a href="javascript:void(0);" data-uri="{% url 'pybo:question_delete' question.id %}" class="delete btn btn-danger btn-sm">삭제</a>
+                {% endif %}
+            </div>
+            <!-- 질문 수정 end -->
         </div>
         <!-- 질문 end -->
 
         <!-- 답변 start -->
-        <h5 class="border-bottom py-2 my-3">{{question.answer_set.count}} 개의 답변이 있습니다.</h5>
-            {% for i in question.answer_set.all%}
+        <h5 class="border-bottom py-2 my-3">{{ question.answer_set.count }} 개의 답변이 있습니다.</h5>
+            {% for answer in question.answer_set.all%}
                 <div class="card my-3">
-                    <div class="card-text" style="white-space: pre-line;">{{i.content}}</div>
+                    <div class="card-text" style="white-space: pre-line;">{{ answer.content }}</div>
                         <div class="d-flex justify-content-end">
-                            <div class="badge bg-warning text-dark p-2">
-                                {{i.create_date}}
+                            <!-- 수정일 start -->
+                            {% if answer.modify_date %}
+                                <div class="badge bg-warning text-dark p-2 text-start mx-3">
+                                    <div class="mb-2">수정일</div>
+                                    <div>{{ answer.modify_date }}</div>
+                                </div>
+                            {% endif %}
+                            <!-- 수정일 end -->
+                            <div class="badge bg-warning text-dark p-2 text-start">
+                                <div class="mb-2">{{ answer.author.username }}</div>
+                                <div>{{ answer.create_date }}</div>
                             </div>
                         </div>
+                    <div class="my-3">
+                        <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                        <a href="javascript:void(0);" data-uri2="{% url 'pybo:answer_delete' answer.id %}" class="delete2 btn btn-danger btn-sm">삭제</a>
+                    </div>
                 </div>
             {% endfor %}
         <!-- 답변 end -->
@@ -46,7 +92,43 @@
         </form>
         <!-- 답변 등록 end -->
 
+    </div>
+    <!-- container end -->
+    {% endblock %}
+
+    {% block script %}
         <script>
+            // 삭제 getElementsByClassName 'delete' 클래스 이름으로 element 찾기
+            //const delete_e = document.getElementsByClassName("delete");
+            //class:. id:#
+            //배열: querySelectorAll
+            //단건: querySelector
+            const delete_e = document.querySelectorAll(".delete")
+            Array.from(delete_e).forEach(function(element){
+                //click event 감지
+                element.addEventListener('click', function(){
+                    console.log('delete click');
+                    if(confirm('삭제 하시겠습니까?')){
+                        console.log('삭제 하시겠습니까?');
+                        //url 호출
+                        console.log('this.dataset.uri'+this.dataset.uri)
+                        location.href = this.dataset.uri;
+                    }
+                });
+            });
+            const delete_e2 = document.querySelectorAll(".delete2")
+            Array.from(delete_e2).forEach(function(element){
+                //click event 감지
+                element.addEventListener('click', function(){
+                    console.log('delete click');
+                    if(confirm('삭제 하시겠습니까?')){
+                        console.log('삭제 하시겠습니까?');
+                        //url 호출
+                        console.log('this.dataset.uri2'+this.dataset.uri2)
+                        location.href = this.dataset.uri2;
+                    }
+                });
+            });
             function doSave(){
                 <!--console.log("doSave");-->
                 const frm = document.answer_frm;
@@ -60,8 +142,4 @@
                 frm.submit();
             }
         </script>
-
-    </div>
-    <!-- container end -->
-
     {% endblock %}

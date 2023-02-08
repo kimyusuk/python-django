@@ -7,6 +7,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'yeonfavicon.ico' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css'%}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="{% static 'common.js' %}"></script>
 
     <title>Pybo</title>
@@ -21,5 +22,10 @@
     {% endblock %}
     <!-- 기본 템플릿 안에 삽입될 내용 end-->
     <script src="{% static 'bootstrap.min.js' %}"></script>
+
+    <!-- javascript는 여기안에 넣어야함 start -->
+    {% block script %}
+    {% endblock %}
+    <!-- javascript는 여기안에 넣어야함 end -->
 </body>
 </html>
