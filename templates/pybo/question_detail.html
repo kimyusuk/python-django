@@ -1,4 +1,5 @@
     {% extends 'base.html' %}
+    {% load pybo_filter %}
     {% block content %}
     <!-- container start -->
     <div class="container">
@@ -20,7 +21,7 @@
             {% endif %}
             <!-- message 표시 end -->
 
-            <div class="card-text" style="white-space: pre-line;">{{ question.content }}</div>
+            <div class="card-text">{{ question.content|mark }}</div>
             <div class="d-flex justify-content-end">
                 <!-- 수정일 start -->
                 {% if question.modify_date %}
@@ -39,6 +40,10 @@
             </div>
             <!-- 질문 수정 start -->
             <div class="my-3">
+                <!-- 자기글이 아니어도 추천이 되는 좋아요 start -->
+                <a href="javascript:void(0);" data-uri="{% url 'pybo:question_vote' question.id %}"
+                class="recommend btn btn-primary btn-sm">좋아요<span class="badge rounded-pill bg-light text-dark">{{ question.voter.count }}</span></a>
+                <!-- 자기글이 아니어도 추천이 되는 좋아요 end -->
                 {% if question.author == request.user %} <!-- 글쓴이와 로그인한 사용자가 동일하다면 if문 실행해라. -->
                     <a href="{% url 'pybo:question_modify' question.id %}" class="btn btn-sm btn-outline-dark">수정</a> <!-- if문 -->
                     <a href="javascript:void(0);" data-uri="{% url 'pybo:question_delete' question.id %}" class="delete btn btn-danger btn-sm">삭제</a>
@@ -52,6 +57,9 @@
         <h5 class="border-bottom py-2 my-3">{{ question.answer_set.count }} 개의 답변이 있습니다.</h5>
             {% for answer in question.answer_set.all%}
                 <div class="card my-3">
+                    <!-- answer_+answer.id start -->
+                    <a id="answer_{{ answer.id }}"></a>
+                    <!-- answer_+answer.id end -->
                     <div class="card-text" style="white-space: pre-line;">{{ answer.content }}</div>
                         <div class="d-flex justify-content-end">
                             <!-- 수정일 start -->
@@ -68,8 +76,16 @@
                             </div>
                         </div>
                     <div class="my-3">
-                        <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
-                        <a href="javascript:void(0);" data-uri2="{% url 'pybo:answer_delete' answer.id %}" class="delete2 btn btn-danger btn-sm">삭제</a>
+                    <!-- 답변 자기글이 아니어도 추천이 되는 좋아요 start -->
+                        <a href="javascript:void(0);" data-uri="{% url 'pybo:answer_vote' answer.id %}"
+                        class="recommend2 btn btn-primary btn-sm">좋아요<span class="badge rounded-pill bg-light text-dark">{{ answer.voter.count }}</span></a>
+                    <!-- 답변 자기글이 아니어도 추천이 되는 좋아요 end -->
+                        {% if request.user == answer.author %} <!-- 본인글만 수정 삭제 -->
+                        <!-- 답변 삭제 start -->
+                            <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                            <a href="javascript:void(0);" data-uri="{% url 'pybo:answer_delete' answer.id %}" class="delete2 btn btn-danger btn-sm">삭제</a>
+                        <!-- 답변 삭제 end -->
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -98,6 +114,20 @@
 
     {% block script %}
         <script>
+            function doSave(){
+                <!--console.log("doSave");-->
+                const frm = document.answer_frm;
+                const ctent = frm.content.value;
+                console.log("content내용"+ctent)
+                if(empty(ctent) == true){
+                    alert("내용을 입력 하세요");
+                    frm.content.focus();
+                    return;
+                }
+                frm.submit();
+            }
+
+           // 질문 삭제 버튼과 질문 삭제 적용 버튼
             // 삭제 getElementsByClassName 'delete' 클래스 이름으로 element 찾기
             //const delete_e = document.getElementsByClassName("delete");
             //class:. id:#
@@ -116,6 +146,8 @@
                     }
                 });
             });
+
+            // 답변 삭제와 답변 삭제 적용 버튼
             const delete_e2 = document.querySelectorAll(".delete2")
             Array.from(delete_e2).forEach(function(element){
                 //click event 감지
@@ -124,22 +156,29 @@
                     if(confirm('삭제 하시겠습니까?')){
                         console.log('삭제 하시겠습니까?');
                         //url 호출
-                        console.log('this.dataset.uri2'+this.dataset.uri2)
-                        location.href = this.dataset.uri2;
+                        console.log('this.dataset.uri'+this.dataset.uri)
+                        location.href = this.dataset.uri;
                     }
                 });
             });
-            function doSave(){
-                <!--console.log("doSave");-->
-                const frm = document.answer_frm;
-                const ctent = frm.content.value;
-                console.log("content내용"+ctent)
-                if(empty(ctent) == true){
-                    alert("내용을 입력 하세요");
-                    frm.content.focus();
-                    return;
-                }
-                frm.submit();
-            }
+
+            //question에 대한 좋아요 scipt 작성하기
+            const recommend_elements = document.querySelectorAll(".recommend")
+            Array.from(recommend_elements).forEach(function(element){
+                element.addEventListener('click', function(){
+                    console.log('recommend click');
+                    location.href = this.dataset.uri;
+                });
+            });
+
+            //answer에 대한 좋아요 scipt 작성하기
+            const recommend_elements2 = document.querySelectorAll(".recommend2")
+            Array.from(recommend_elements2).forEach(function(element){
+                element.addEventListener('click', function(){
+                    console.log('recommend click');
+                    location.href = this.dataset.uri;
+                });
+            });
+
         </script>
     {% endblock %}

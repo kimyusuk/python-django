@@ -1,7 +1,7 @@
 import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.utils import timezone
 from ..forms import AnswerForm
 from ..models import Question, Answer
@@ -18,7 +18,7 @@ def answer_create(request, question_id):
             answer.question = question
             answer.author = request.user
             answer.save()
-            return redirect("pybo:detail", question_id=question.id)
+            return redirect("{}#answer_{}".format(resolve_url('pybo:detail', question_id=question.id),answer.id))
     else:
         form = AnswerForm()
     # form validation
@@ -52,7 +52,7 @@ def answer_modify(request,answer_id):
             answer.modify_date = timezone.now()
             logging.info("3.answer_modify POST form.isvalid():{}".format(answer))
             answer.save()
-            return redirect("pybo:detail", question_id = answer.question.id)
+            return redirect("{}#answer_{}".format(resolve_url('pybo:detail', question_id=answer.question.id), answer.id))
     else:                        #수정 form의 tempalte
         form = AnswerForm(instance=answer)  # get 수정 데이타
     context = {"answer":answer, 'form': form}
@@ -69,3 +69,15 @@ def answer_delete(request,answer_id):
 
     answer.delete() #삭제
     return redirect("pybo:index")
+
+@login_required(login_url='common:login')
+def answer_vote(request,answer_id):
+    logging.info('1.answer_voter:{}'.format(answer_id))
+    answer = get_object_or_404(Answer, pk=answer_id)
+
+    #본인 글은 본인이 추천 못하게
+    if request.user == answer.author:
+        messages.error(request, "본인이 작성한 글은 추천할 수 없습니다.")
+    else:
+        answer.voter.add(request.user)
+    return redirect("{}#answer_{}".format(resolve_url('pybo:detail', question_id=answer.question.id), answer.id))
