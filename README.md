@@ -9,7 +9,8 @@ cmd에서 venvs 폴더에 진입한 후 python -m venv mysite 명령어를 쳐 �
 (mysite) C:\venvs\mysite\Scripts>pip install django==4.0.3 이다.  
 
 깃에 올린 projects 폴더를 내려 받은 후 
-projects폴더에서 가상환경을 실행 한다. 실행 방법은 아래와 같다.  
+projects폴더를 c드라이브에 넣은 뒤  
+가상환경을 실행 한다. 실행 방법은 아래와 같다.  
 C:\projects>C:\venvs\mysite\Scripts\activate 이후  
   
 (mysite) c:\projects\mysite> 이런 모양이 됐다면  
