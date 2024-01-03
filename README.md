@@ -1,5 +1,5 @@
 db browser for sqlLite가 깔려있어야 한다. 
-projects에 mysite에 db.sqlite3를 수정해서 사용하면 된다.  
+projects에 mysite에 db.sqlite3을 수정해서 사용하면 된다.  
   
 장고 가상환경 만드는 법. 
 venvs라는 폴더를 만들어서 진행 했다.  
