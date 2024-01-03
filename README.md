@@ -17,3 +17,10 @@ C:\projects>C:\venvs\mysite\Scripts\activate 이후
 python 프로젝트에서 가상환경이 정상적으로 실행 된 것이다.  
 이후 python manage.py runserver로 로컬 호스트에 접속 해주면 된다.  
 주소값은 http://127.0.0.1:8000 이다. 
+
+기본적으로는 자유 게시판 형태고.  
+로그인 기능이 있으며.  
+게시판에서 영화 무비차트를   
+네이버에서 최신 순으로   
+크롤링 하는 bs4 = BeautifulSoup   
+기술을 사용했다.  
