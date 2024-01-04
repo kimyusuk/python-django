@@ -1,8 +1,8 @@
-실행 방법.
-파이참이 깔려 있어야 한다.  
-db browser for sqlLite가 깔려있어야 한다.   
-projects에 mysite에 db.sqlite3을 수정해서 사용하면 된다.  
+우선 기본적으로  
+파이참과 db browser for sqlLite가 깔려있어야 한다.  
+db는 projects에 mysite에 db.sqlite3을 수정해서 사용하면 된다.  
   
+장고 실행 방법.  
 장고 가상환경 만드는 법. 
 venvs라는 폴더를 만들어서 진행 했다.  
 cmd에서 venvs 폴더에 진입한 후 python -m venv mysite 명령어를 쳐 준다.  
